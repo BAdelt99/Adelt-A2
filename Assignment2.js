@@ -21,12 +21,22 @@ function requestHandler(req, res)
     if (query['cmd'] == undefined)
       throw Error("A command must be specified");
       
+      if (query['checks'] == undefined || query['checks'] < 0)  
+    throw Error("Invalid value for checks");
+    
+   if (query['checkBal'] == undefined || query['checkBal'] != parseInt(query['checkBal']) || parseInt(query['checkBal']) < 0 )  
+    throw Error("Invalid value for checking");
+    
+    if (query['savingsBal'] == undefined || query['savingsBal'] != parseInt(query['savingsBal']) || parseInt(query['savingsBal']) < 0)  
+    throw Error("Invalid value for savingsBal");
+      
     var result = {};
     if (query['cmd'] == 'CalcCharge')
     {
       result = serviceCharge(query);
       
     }
+  
 
     else
     {
@@ -46,15 +56,6 @@ function requestHandler(req, res)
 
 function serviceCharge(query)
 {
-  if (query['checks'] == undefined || query['checks'].length < 0)  
-    throw Error("Invalid value for checks");
-    
-   // if (query['checkBal'] == undefined || !NaN)  
-    //throw Error("Invalid value for checking");
-    
-    //if (query['savingsBal'] == undefined || !NaN)  
-    //throw Error("Invalid value for savingsBal");
-    
    var checks = 0;
   var numchecks = parseInt(query['checks']);
   var savingsBal = parseInt(query['savingsBal']);;
